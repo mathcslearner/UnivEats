@@ -1,6 +1,6 @@
 const Intro = () => {
     return(
-        <div id="intro-container" className="max-w-3xl p-8 bg-white rounded-2xl shadow-lg text-center space-y-6 transition-shadow duration-500 ease-in-out hover:scale-101 hover:shadow-xl mt-8 mx-auto mb-10">
+        <div id="intro-container" className="max-w-3xl p-8 bg-white rounded-2xl shadow-lg text-center space-y-6 transition-transform transform hover:scale-105 duration-300 w-full mt-8 mx-auto mb-10">
         <h1 className="text-4xl md:text-5xl font-bold text-gray-900">
             UniEats: The Marketplace for Homemade Dishes
         </h1>

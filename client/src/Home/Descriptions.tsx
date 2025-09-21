@@ -1,7 +1,7 @@
 const Descriptions = () => {
     return(
         <div id="descriptions-container" className="flex flex-row items-center justify-center gap-10 mt-5 mb-5">
-        <div id="buyer-description" className="p-4 bg-white rounded-2xl shadow-lg text-center transition-shadow duration-500 ease-in-out hover:scale-101 hover:shadow-xl">
+        <div id="buyer-description" className="p-4 bg-white rounded-2xl shadow-lg text-center transition-transform transform hover:scale-105 duration-300">
             <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">For Buyers</h1>
             <ul className="flex flex-col gap-2">
                 <li className="flex items-start gap-2">
@@ -30,7 +30,7 @@ const Descriptions = () => {
                 </li>
             </ul>
         </div>
-        <div id="seller-description" className="p-4 bg-white rounded-2xl shadow-lg text-center transition-shadow duration-500 ease-in-out hover:scale-101 hover:shadow-xl">
+        <div id="seller-description" className="p-4 bg-white rounded-2xl shadow-lg text-center transition-transform transform hover:scale-105 duration-300">
             <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">For Sellers</h1>
             <ul className="flex flex-col gap-2">
                 <li className="flex items-start gap-2">
