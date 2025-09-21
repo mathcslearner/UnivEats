@@ -1,21 +1,20 @@
 import React from 'react';
 import './Home.css';
+import Navbar from './Navbar';
+import Intro from './Intro';
+import Descriptions from './Descriptions';
+import Reviews from './Reviews';
 
-const Home = () => {
-    return(
-        <div id="container">
-            <h1 className="text-4xl">UniEats: The Marketplace for homemade dishes</h1>
-            <h2 className="text-2xl">From one student's kitchen to another student's plate, because dining halls don't have everything.</h2>
-            <p>
-                We believe great food brings people together. 
-                Our platform connects university students who love to cook with fellow students looking for affordable, homemade meals. 
-                Instead of relying only on dining halls or expensive takeout, students can enjoy fresh, authentic dishes made by their peers—right on campus. 
-                This not only makes eating more personal and budget-friendly, but also builds a stronger sense of community where students share culture, creativity, and comfort through food. 
-                By empowering student cooks to earn a little extra while helping classmates eat better, we’re creating a win-win solution that turns every dorm, kitchen, and apartment into part of a shared campus marketplace.
-            </p>
-            <button>SIGN UP NOW!</button>
-        </div>
-    )
-}
+const Home: React.FC = () => {
+  return (
+<body className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-indigo-100 via-purple-100 to-pink-100">
+    <Navbar />
+    <Intro />
+    <Descriptions />
+    <Reviews />
+</body>
+  );
+};
 
-export default Home
+export default Home;
+
