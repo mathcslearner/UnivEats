@@ -5,7 +5,9 @@ import './App.css'
 
 import Home from './Home/Home';
 import Login from './Login/Login';
-import Dashboard from './Dashboard/Dashboard';
+import Signup from './Login/Signup';
+import BuyerDashboard from './Dashboard/BuyerDashboard';
+import SellerDashboard from './Dashboard/SellerDashboard';
 
 //Only show Dashboard if user is logged in, else redirect to login page
 
@@ -13,7 +15,7 @@ interface ProtectedRouteProps {
   children: ReactNode;
 }
 const ProtectedRoute:React.FC<ProtectedRouteProps> = ({children}) => {
-  const isAuthenticated = false;
+  const isAuthenticated = true;
 
   return isAuthenticated ? children : <Navigate to="/login" />;
 }
@@ -23,13 +25,21 @@ const router = createBrowserRouter(
     <>
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<Signup />} />
       <Route 
-        path="/dashboard" 
+        path="/buyer-dashboard" 
         element={
           <ProtectedRoute>
-            <Dashboard />
+            <BuyerDashboard />
           </ProtectedRoute>
         } 
+      />
+      <Route 
+        path="/seller-dashboard" 
+        element={
+          <ProtectedRoute>
+            <SellerDashboard/>
+          </ProtectedRoute>}
       />
     </>
   )

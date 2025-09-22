@@ -1,3 +1,5 @@
+import {Link} from 'react-router';
+
 const Intro = () => {
     return(
         <div id="intro-container" className="max-w-3xl p-8 bg-white rounded-2xl shadow-lg text-center space-y-6 transition-transform transform hover:scale-105 duration-300 w-full mt-8 mx-auto mb-10">
@@ -14,9 +16,9 @@ const Intro = () => {
             This not only makes eating more personal and budget-friendly, but also builds a stronger sense of community where students share culture, creativity, and comfort through food. 
             By empowering student cooks to earn a little extra while helping classmates eat better, we’re creating a win-win solution that turns every dorm, kitchen, and apartment into part of a shared campus marketplace.
         </p>
-        <button className="px-8 py-3 bg-gradient-to-r from-green-400 to-blue-500 text-white font-semibold rounded-full shadow-md hover:from-green-500 hover:to-blue-600 transition-colors duration-300">
+        <Link to="/signup" className="px-8 py-3 bg-gradient-to-r from-green-400 to-blue-500 text-white font-semibold rounded-full shadow-md hover:from-green-500 hover:to-blue-600 transition-colors duration-300">
             SIGN UP NOW!
-        </button>
+        </Link>
     </div>
     )
 }
