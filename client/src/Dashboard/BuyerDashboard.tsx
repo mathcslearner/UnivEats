@@ -1,6 +1,7 @@
 import React from 'react';
 import './Dashboard.css';
 import ToggleButton from './ToggleButton';
+import BuyerSidebar from './BuyerSidebar';
 
 const BuyerDashboard = () => {
     return(
@@ -9,6 +10,7 @@ const BuyerDashboard = () => {
             <nav className="fixed top-5 right-5 ">
                 <ToggleButton />
             </nav>
+            <BuyerSidebar />
         </body>
     )
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import ToggleButton from './ToggleButton';
+import SellerSidebar from './SellerSidebar'
 
 const SellerDashboard = () => {
     return(
@@ -8,6 +9,7 @@ const SellerDashboard = () => {
             <nav className="fixed top-5 right-5 ">
                 <ToggleButton />
             </nav>
+            <SellerSidebar />
         </body>
     )
 }
