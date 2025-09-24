@@ -1,6 +1,6 @@
 import {useState, type ReactNode} from 'react';
 import {Apple, Home, BookA, CircleDollarSign, Menu, MessageCircleMore, UserRoundPen} from 'lucide-react';
-import {Link} from 'react-router';
+import {NavLink} from 'react-router';
 
 type MenuItem = {
     name: string;
@@ -11,7 +11,7 @@ type MenuItem = {
 const menuItems : MenuItem[] = [
     {name: "Home", path: "/seller-dashboard", icon: <Home size = {20}/>},
     {name: "Listings", path: "/seller-dashboard/listings", icon: <Apple size={20}/>},
-    {name: "Message", path: "/message", icon: <MessageCircleMore size={20} />},
+    {name: "Message", path: "/seller-dashboard/message", icon: <MessageCircleMore size={20} />},
     {name: "Orders", path: "/seller-dashboard/orders", icon: <BookA size={20} />},
     {name: "Earnings", path: "/seller-dashboard/earnings", icon: <CircleDollarSign size={20} />},
     {name: "Profile", path: "/profile", icon: <UserRoundPen size={20} />}
@@ -34,10 +34,10 @@ const SellerSidebar:React.FC<SidebarProps> = ({current}) => {
                     {menuItems.map((item) => {
                         return (
                         <div key={item.name} className="relative group">
-                            <Link to={item.path} className={`${current === item.name ? "bg-gray-700" : null} flex items-center gap-3 p-2 rounded-md hover:bg-gray-700 transition-colors`}>
+                            <NavLink to={item.path} className={`${current === item.name ? "bg-gray-700" : null} flex items-center gap-3 p-2 rounded-md hover:bg-gray-700 transition-colors`}>
                             {item.icon}
                             {isOpen && <span>{item.name}</span>}
-                            </Link>
+                            </NavLink>
                             {!isOpen && (
                             <span className="absolute left-14 top-1/2 -translate-y-1/2 px-2 py-1 rounded bg-gray-800 text-sm text-white opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap shadow-lg">
                               {item.name}

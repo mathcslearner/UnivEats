@@ -1,9 +1,9 @@
 import React , {type ReactNode} from 'react';
 import './Dashboard.css';
 import {BookA, Compass, HeartPlus, Menu, MessageCircleMore, ShoppingCart, User, UserRoundPen} from 'lucide-react';
-import ToggleButton from './ToggleButton';
+import ToggleButton from '../ToggleButton';
 import BuyerSidebar from './BuyerSidebar';
-import Feature from './Feature';
+import Feature from '../Feature';
 
 type featureItem = {
     icon: ReactNode,

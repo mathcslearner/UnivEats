@@ -1,8 +1,8 @@
 import {type ReactNode} from 'react';
 import {Apple, BookA, CircleDollarSign, MessageCircleMore, UserRoundPen} from 'lucide-react';
-import ToggleButton from './ToggleButton';
+import ToggleButton from '../ToggleButton';
 import SellerSidebar from './SellerSidebar';
-import Feature from './Feature';
+import Feature from '../Feature';
 
 type featureItem = {
     icon: ReactNode,
