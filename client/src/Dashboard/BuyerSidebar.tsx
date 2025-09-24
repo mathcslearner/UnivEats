@@ -1,5 +1,5 @@
 import {useState, type ReactNode} from 'react';
-import {Home, BookA, Compass, HeartPlus, Menu, MessageCircleMore, ShoppingCart, UserRoundPen, User} from 'lucide-react';
+import {Home, BookA, Compass, HeartPlus, Menu, MessageCircleMore, ShoppingCart, UserRoundPen} from 'lucide-react';
 import {Link} from 'react-router';
 
 type MenuItem = {
@@ -18,7 +18,10 @@ const menuItems : MenuItem[] = [
     {name: "Profile", path: "/profile", icon: <UserRoundPen size={20} />}
 ]
 
-const BuyerSidebar = () => {
+type SidebarProps = {
+    current: String;
+}
+const BuyerSidebar:React.FC<SidebarProps> = ({current}) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
 
     return(
@@ -28,12 +31,21 @@ const BuyerSidebar = () => {
                     <Menu size={24} />
                 </button>
                 <nav id="items-container">
-                    {menuItems.map((item) => (
-                        (<Link to={item.path} key={item.name} className="flex items-center gap-3 p-2 rounded-md hover:bg-gray-700 transition-colors">
+                    {menuItems.map((item) => {
+                        return (
+                        <div key={item.name} className="relative group">
+                            <Link to={item.path} className={`${current === item.name ? "bg-gray-700" : null} flex items-center gap-3 p-2 rounded-md hover:bg-gray-700 transition-colors`}>
                             {item.icon}
                             {isOpen && <span>{item.name}</span>}
-                        </Link>)
-                    ))}
+                            </Link>
+                            {!isOpen && (
+                            <span className="absolute left-14 top-1/2 -translate-y-1/2 px-2 py-1 rounded bg-gray-800 text-sm text-white opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap shadow-lg">
+                              {item.name}
+                            </span>
+                            )}
+                        </div>
+                        )
+                    })}
                 </nav>
             </div>
         </div>
