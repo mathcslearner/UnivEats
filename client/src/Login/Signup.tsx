@@ -1,18 +1,42 @@
 import React, { useState } from 'react';
+import axios, { type AxiosResponse } from 'axios';
+import { useNavigate } from 'react-router';
+
+interface SignupResponse {
+  id: string;
+  name: string;
+  email: string;
+}
 
 const Signup = () => {
+  const navigate = useNavigate();
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (password !== confirmPassword) {
       alert("Passwords don't match!");
       return;
     }
-    //Placeholder for backend
+    
+    try {
+      const res: AxiosResponse<SignupResponse>= await axios.post("https://localhost:3001/auth/signup",
+        {name,
+        email,
+        password});
+      
+        console.log("User created:", res.data);
+        
+        navigate('/dashboard')
+    } catch (err:any) {
+      console.error(err);
+      console.log(err.response?.data?.error || "Signup failed");
+    }
   };
 
   return (
