@@ -15,6 +15,8 @@ const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,11 +33,12 @@ const Signup = () => {
         password});
       
         console.log("User created:", res.data);
+        setSuccess(`Account created for ${res.data.name}! Log in to access the dashboard.`)
         
         navigate('/dashboard')
     } catch (err:any) {
       console.error(err);
-      console.log(err.response?.data?.error || "Signup failed");
+      setError(err.response?.data?.error || "Signup failed");
     }
   };
 
@@ -118,6 +121,8 @@ const Signup = () => {
           </a>
         </p>
       </div>
+      {error && <p style={{color: "red"}}>{error}</p>}
+      {success && <p style={{color: "green"}}>{success}</p>}
     </div>
   );
 };

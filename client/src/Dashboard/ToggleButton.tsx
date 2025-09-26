@@ -5,7 +5,7 @@ const ToggleButton = () => {
     const navigate = useNavigate();
 
     const handleToggle = () => {
-        if (location.pathname === "/buyer-dashboard"){
+        if (location.pathname.includes("/buyer-dashboard")){
             navigate("/seller-dashboard")
         } else{
             navigate("/buyer-dashboard")
@@ -14,7 +14,7 @@ const ToggleButton = () => {
 
     return(
         <button onClick={handleToggle} className="px-4 py-2 rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition">
-            {location.pathname === "/buyer-dashboard" ? "Switch to Seller Mode" : "Switch to Buyer Mode"}
+            {location.pathname.includes("/buyer-dashboard") ? "Switch to Seller Mode" : "Switch to Buyer Mode"}
         </button>
     )
 }
