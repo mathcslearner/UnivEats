@@ -110,7 +110,10 @@ const AddMealButton:React.FC<AddMealButtonProps> = ({onSubmit}) => {
 
                             <div>
                                 <label className="block mb-1 font-medium">Meal Image</label>
-                                <input type="file" accept="image/*" onChange={handleFileChange} className="w-full" required />
+                                <label className="inline-block w-full border-2 border-gray-300 rounded-lg p-2 text-center cursor-pointer hover:border-blue-500">
+                                    Choose File
+                                    <input type="file" accept="image/*" onChange={handleFileChange} className="hidden" required />
+                                </label>
                                 {preview && <img src={preview} alt="Preview" className="mt-3 rounded-lg w-full object-cover" />}
                             </div>
 

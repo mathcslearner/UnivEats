@@ -1,10 +1,34 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import ToggleButton from "../ToggleButton"
 import SellerSidebar from "./SellerSidebar"
 import AddMealButton, {type MealPayload} from './AddMealButton'
 import axios from "axios"
 
+interface MealCardProps {
+    title: string;
+    description: string;
+    price: Number;
+    cuisine: string;
+    dietary_tags: any[];
+    availability: string;
+    pickup_location: string;
+    image_url: string;
+}
+
 const Listings = () => {
+    const [meals, setMeals] = useState<MealCardProps[]>([]);
+    const [page, setPage] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [hasMore, setHasMore] = useState(true);
+
+    useEffect(() => {
+        const fetchMeals = () => {
+
+        }
+
+        fetchMeals();
+    }, [page])
+
     const handleAddMeal = async (formData: Omit<MealPayload, "image_url">, File: File) => {
         const imgForm = new FormData();
         imgForm.append("image", File);

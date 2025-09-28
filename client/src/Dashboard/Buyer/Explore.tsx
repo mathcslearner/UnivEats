@@ -1,44 +1,50 @@
+import {useState, useEffect} from 'react';
 import {Compass} from 'lucide-react';
 import BuyerSidebar from './BuyerSidebar';
 import ToggleButton from '../ToggleButton';
 import MealCard from '../MealCard';
+import axios from 'axios';
 
-//Hardcoded meals
-const meals = [
-    {
-      title: "Margherita Pizza",
-      description: "Classic Neapolitan pizza with tomato, mozzarella, and basil.",
-      price: 14.99,
-      cuisine: "Italian",
-      dietary_tags: ["Vegetarian", "Halal"],
-      availability: "10am - 9pm",
-      pickup_location: "123 Main St, Toronto",
-      image_url: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-    {
-      title: "Pad Thai",
-      description:
-        "Stir-fried rice noodles with shrimp, peanuts, and tamarind sauce.",
-      price: 12.5,
-      cuisine: "Asian",
-      dietary_tags: ["Gluten-Free"],
-      availability: "12am-8pm",
-      pickup_location: "88 King St, Toronto",
-      image_url: "https://plus.unsplash.com/premium_photo-1669150852117-7b1106702067?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-    {
-        title: "test1",
-        description: "description1", 
-        price: 13.5,
-        cuisine: "test",
-        dietary_tags: [],
-        availability: "11pm",
-        pickup_location: "SLC",
-        image_url: "a"
-    }
-  ];
+interface MealCardProps {
+    title: string;
+    description: string;
+    price: Number;
+    cuisine: string;
+    dietary_tags: any[];
+    availability: string;
+    pickup_location: string;
+    image_url: string;
+}
 
 const Explore = () => {
+    const [meals, setMeals] = useState<MealCardProps[]>([]);
+    const [page, setPage] = useState(0);
+    const [loading, setLoading] = useState(true);
+    const [hasMore, setHasMore] = useState(true);
+
+    useEffect(() => {
+        const fetchMeals = async () => {
+            try {
+                setLoading(true);
+
+                const res = await axios.get(`/api/meals?limit=10&offset=${page*10}`);
+                const newMeals = res.data;
+
+                if (newMeals.length < 10){
+                    setHasMore(false);
+                }
+
+                setMeals((prev) => [...prev, ...newMeals]);
+            } catch (err) {
+                console.error("Error fetching meals:", err);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        fetchMeals();
+    }, [page])
+
     return(
         <body className="min-h-screen flex flex-col bg-gradient-to-br from-indigo-100 via-purple-100 to-pink-100">
             <div className="flex items-center justify-center gap-2 mt-3">
@@ -57,6 +63,11 @@ const Explore = () => {
                     )
                 })}
             </div>
+            {hasMore && (
+                <button onClick={()=> setPage((prev) => prev+1)} disabled={loading} className="mt-6 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50">
+                    {loading ? "Loading..." : "Load More"}
+                </button>
+            )}
         </body>
     )
 }

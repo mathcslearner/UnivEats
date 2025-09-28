@@ -4,6 +4,7 @@ import express from 'express'
 import authRoutes from './Routes/auth'
 import { authenticateToken } from './Middleware/auth'
 import mealsRoutes from './Routes/mealsRoutes'
+import userRoutes from './Routes/userRoutes'
 
 dotenv.config();
 const express = require('express')
@@ -29,6 +30,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 //Routes
 app.use('/auth', authRoutes);
 app.use('/api/meals', mealsRoutes)
+app.use('/api/users', userRoutes);
 
 const PORT = 3001
 app.listen(PORT, () => {

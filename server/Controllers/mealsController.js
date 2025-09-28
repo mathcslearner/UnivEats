@@ -26,9 +26,13 @@ export const createMeal = async (req, res) => {
 }
 
 export const getMeals = async (req, res) => {
+    const limit = parseInt(req.query.limit) || 10;
+    const offset = parseInt(req.query.offset) || 0;
+
     try {
         const result = await pool.query(
-            "SELECT * FROM meals ORDER BY id DESC"
+            "SELECT * FROM meals ORDER BY id DESC LIMIT $1 OFFSET $2",
+            [limit, offset]
         )
         res.json(result.rows)
     } catch (err) {
