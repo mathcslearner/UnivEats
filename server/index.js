@@ -3,6 +3,7 @@ import dotenv from "dotenv"
 import express from 'express'
 import authRoutes from './Routes/auth'
 import { authenticateToken } from './Middleware/auth'
+import mealsRoutes from './Routes/mealsRoutes'
 
 dotenv.config();
 const express = require('express')
@@ -21,7 +22,13 @@ app.get('/', (request, response) => {
     response.send('<h1>Hello World</h1>')
 })
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+//Routes
 app.use('/auth', authRoutes);
+app.use('/api/meals', mealsRoutes)
 
 const PORT = 3001
 app.listen(PORT, () => {
