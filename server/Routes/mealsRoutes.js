@@ -1,6 +1,7 @@
 import express from 'express'
 import multer from 'multer'
 import {uploadMealImage, createMeal, getMeals} from '../Controllers/mealsController'
+import { authenticateToken } from '../Middleware/auth'
 
 const router = express.Router()
 
@@ -11,7 +12,7 @@ const storage = multer.diskStorage({
 const upload = multer({storage})
 
 router.post('/upload', upload.single("image"), uploadMealImage)
-router.post('/', createMeal)
+router.post('/', authenticateToken, createMeal)
 router.get('/', getMeals)
 
 export default router

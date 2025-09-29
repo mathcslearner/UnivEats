@@ -11,12 +11,13 @@ export const uploadMealImage = (req, res) => {
 }
 
 export const createMeal = async (req, res) => {
+    const userId = req.user.id
     const {title, description, price, cuisine, dietary_tags, availability, pickup_location, image_url} = req.body;
 
     try {
         const result = await pool.query(
-            `INSERT INTO meals (title, description, price, cuisine, dietary_tags, availability, pickup_location, image_url) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *`,
-            [title, description, price, cuisine, dietary_tags, availability, pickup_location, image_url]
+            `INSERT INTO meals (title, description, price, cuisine, dietary_tags, availability, pickup_location, image_url, user_id) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING *`,
+            [title, description, price, cuisine, dietary_tags, availability, pickup_location, image_url, userId]
         )
         res.status(201).json(result.rows[0])
     } catch (err) {

@@ -3,7 +3,7 @@ import { useState } from "react";
 interface MealCardProps {
     title: string;
     description: string;
-    price: Number;
+    price: number;
     cuisine: string;
     dietary_tags: any[];
     availability: string;
@@ -38,7 +38,7 @@ const MealCard:React.FC<MealCardProps> = ({title,
         <div className="p-4 space-y-2">
           <div className="flex justify-between items-center">
             <h2 className="text-lg font-semibold">{title}</h2>
-            <span className="text-primary font-bold">${price.toFixed(2)}</span>
+            <span className="text-primary font-bold">${price?.toFixed(2)}</span>
           </div>
           <p className="text-sm text-gray-500">{cuisine}</p>
           <div className="flex flex-wrap gap-2">

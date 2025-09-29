@@ -1,13 +1,10 @@
 import {Request, Response} from 'express'
 import pool from '../db'
 
-interface AuthRequest extends Request {
-    userId?:number;
-}
-
 //Get meals for logged-in user
-export const getUserMeals = async (req: AuthRequest, res: Response) => {
-    const userId = req.userId;
+export const getUserMeals = async (req: Request, res: Response) => {
+    const userId = req.user?.id;
+    
     if (!userId) {
         return res.status(401).json({error: "Unauthorized"});
     }
