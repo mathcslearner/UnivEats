@@ -51,12 +51,12 @@ export const login = async (req, res) => {
 
         //create token
         const token = jwt.sign(
-            {id: user.rows[0].id, email: user.rows[0].email},
+            {id: user.id, email: user.email},
             process.env.JWT_SECRET,
             {expiresIn: "1h"}
         );
         
-        res.json({token});
+        res.json({token, userId: user.id});
         
     } catch(err) {
         console.error(err.message);

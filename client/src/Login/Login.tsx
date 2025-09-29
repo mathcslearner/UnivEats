@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router';
 
 interface LoginResponse {
   token: string;
+  userId: string;
 }
 
 const Login = () => {
@@ -24,6 +25,7 @@ const Login = () => {
       );
       
       localStorage.setItem("token", res.data.token);
+      localStorage.setItem("userId", res.data.userId);
       console.log("JWT token:", res.data.token)
 
       navigate('/dashboard')

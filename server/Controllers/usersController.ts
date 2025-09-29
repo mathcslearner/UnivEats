@@ -1,5 +1,6 @@
 import {Request, Response} from 'express'
 import pool from '../db'
+import 'express.d.ts'
 
 //Get meals for logged-in user
 export const getUserMeals = async (req: Request, res: Response) => {
@@ -41,5 +42,38 @@ export const getUserMealsById = async (req: Request, res: Response) => {
         console.error(err)
         res.status(500).json({error: "Failed to fetch meals"})
     }
+}
+
+//Get profile information for a specific user
+export const getUserInfo = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        const { rows } = await pool.query(
+          "SELECT name, email, bio FROM users WHERE id = $1",
+          [id]
+        );
+
+        if (rows.length === 0) return res.status(404).json({ message: "Not found" });
+        res.json(rows[0]);
+      } catch (err) {
+        res.status(500).json({ message: "Server error" });
+      }
+}
+
+
+//Change profile information for a specific user
+export const changeUserInfo = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        const { name, email, bio } = req.body;
+
+        await pool.query(
+          "UPDATE users SET name = $1, email = $2, bio = $3 WHERE id = $4",
+          [name, email, bio, id]
+        );
+        res.sendStatus(200);
+      } catch (err) {
+        res.status(500).json({ message: "Failed to update profile" });
+      }
 }
 
