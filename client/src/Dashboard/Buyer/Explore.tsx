@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect} from "react";
 import { Compass } from "lucide-react";
 import BuyerSidebar from "./BuyerSidebar";
 import ToggleButton from "../ToggleButton";
@@ -6,6 +6,7 @@ import MealCard from "../MealCard";
 import axios from "axios";
 
 interface MealCardProps {
+  id: number;
   title: string;
   description: string;
   price: number;
