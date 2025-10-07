@@ -6,6 +6,7 @@ import MealCard from '../MealCard'
 import axios from "axios"
 
 interface MealCardProps {
+    id: number;
     title: string;
     description: string;
     price: number;
