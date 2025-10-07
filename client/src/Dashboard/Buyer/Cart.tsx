@@ -8,12 +8,17 @@ interface CartItem {
   name: string;
   quantity: number;
   price: number;
+  seller_id: number;
+  meal_id: number;
 }
 
 const Cart: React.FC = () => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [updatingIds, setUpdatingIds] = useState<number[]>([]); // track items being updated
+  const [updatingIds, setUpdatingIds] = useState<number[]>([]);
+  const [submitting, setSubmitting] = useState<boolean>(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [modalMessage, setModalMessage] = useState<string>("");
 
   // Fetch shopping list
   useEffect(() => {
@@ -27,7 +32,9 @@ const Cart: React.FC = () => {
                 typeof i.id === "number" &&
                 typeof i.name === "string" &&
                 typeof i.quantity === "number" &&
-                typeof i.price === "number"
+                typeof i.price === "number" &&
+                typeof i.meal_id === "number" &&
+                typeof i.seller_id === "number"
             )
           : [];
         setCartItems(validItems);
@@ -43,7 +50,7 @@ const Cart: React.FC = () => {
 
   // Update quantity safely
   const updateQuantity = async (id: number, delta: number) => {
-    if (updatingIds.includes(id)) return; // prevent multiple clicks
+    if (updatingIds.includes(id)) return;
 
     const item = cartItems.find((i) => i.id === id);
     if (!item) return;
@@ -66,13 +73,40 @@ const Cart: React.FC = () => {
     }
   };
 
+  // Concurrent checkout
+  const handleCheckout = async () => {
+    if (!cartItems.length) return;
+    setSubmitting(true);
+
+    try {
+      const orderPromises = cartItems.map((item) =>
+        axios.post("/api/orders", {
+          meal_id: item.meal_id,
+          seller_id: item.seller_id,
+          quantity: item.quantity,
+          total_price: item.price * item.quantity,
+        })
+      );
+
+      await Promise.all(orderPromises);
+
+      await axios.put("/api/cart/clear");
+
+      setCartItems([]);
+      setModalMessage("Order successfully submitted! Thank you for your purchase.");
+      setShowModal(true);
+    } catch (err) {
+      console.error("Error submitting orders:", err);
+      setModalMessage("Something went wrong while submitting your order. Please try again.");
+      setShowModal(true);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   if (loading) return <p>Loading cart...</p>;
 
-  // Safe total calculation
-  const totalPrice = cartItems.reduce((acc, item) => {
-    if (!item || typeof item.price !== "number" || typeof item.quantity !== "number") return acc;
-    return acc + item.price * item.quantity;
-  }, 0);
+  const totalPrice = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
   return (
     <div className="min-h-screen flex flex-col items-center bg-gradient-to-br from-indigo-100 via-purple-100 to-pink-100">
@@ -108,14 +142,18 @@ const Cart: React.FC = () => {
               </td>
               <td className="border border-gray-300 px-4 py-2 flex gap-2">
                 <button
-                  className={`px-2 rounded text-white ${updatingIds.includes(item.id) ? "bg-gray-400" : "bg-green-500"}`}
+                  className={`px-2 rounded text-white ${
+                    updatingIds.includes(item.id) ? "bg-gray-400" : "bg-green-500"
+                  }`}
                   onClick={() => updateQuantity(item.id, 1)}
                   disabled={updatingIds.includes(item.id)}
                 >
                   +
                 </button>
                 <button
-                  className={`px-2 rounded text-white ${updatingIds.includes(item.id) ? "bg-gray-400" : "bg-red-500"}`}
+                  className={`px-2 rounded text-white ${
+                    updatingIds.includes(item.id) ? "bg-gray-400" : "bg-red-500"
+                  }`}
                   onClick={() => updateQuantity(item.id, -1)}
                   disabled={updatingIds.includes(item.id)}
                 >
@@ -133,9 +171,36 @@ const Cart: React.FC = () => {
           </tr>
         </tbody>
       </table>
+
+      {/* Checkout button */}
+      <button
+        className={`mt-5 px-6 py-3 rounded text-white ${
+          submitting ? "bg-gray-400" : "bg-blue-600 hover:bg-blue-700"
+        }`}
+        onClick={handleCheckout}
+        disabled={submitting || cartItems.length === 0}
+      >
+        {submitting ? "Submitting..." : "Checkout"}
+      </button>
+
+      {/* Confirmation modal */}
+      {showModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white rounded-lg p-6 w-80 text-center shadow-lg">
+            <p className="mb-4">{modalMessage}</p>
+            <button
+              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+              onClick={() => setShowModal(false)}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
 export default Cart;
+
 

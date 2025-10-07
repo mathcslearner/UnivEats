@@ -62,4 +62,21 @@ export const changeUserCart = async (req, res) => {
       res.status(500).json({ error: "Failed to update cart" });
     }
   };
+
+export const clearCart = async (req: Request, res: Response) => {
+    try {
+      const userId = req.user?.id; 
+      if (!userId) return res.status(401).json({ error: "Unauthorized" });
+  
+      await pool.query(
+        `UPDATE users SET shopping_list = '[]' WHERE id = $1`,
+        [userId]
+      );
+  
+      res.status(200).json({ message: "Cart cleared successfully." });
+    } catch (err) {
+      console.error("Error clearing cart:", err);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  };
   
