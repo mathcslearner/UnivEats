@@ -1,6 +1,7 @@
 import cors from 'cors'
 import dotenv from "dotenv"
 import express from 'express'
+import { createWebSocketServer } from "./websocketServer";
 import authRoutes from './Routes/auth'
 import { authenticateToken } from './Middleware/auth'
 import mealsRoutes from './Routes/mealsRoutes'
@@ -35,6 +36,9 @@ app.use('/api/meals', mealsRoutes)
 app.use('/api/users', userRoutes)
 app.use('/api/cart', cartRoutes)
 app.use('/api/orders', orderRoutes)
+
+//Websocket server
+createWebSocketServer(server);
 
 const PORT = 3001
 app.listen(PORT, () => {
