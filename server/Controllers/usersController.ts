@@ -77,3 +77,23 @@ export const changeUserInfo = async (req: Request, res: Response) => {
       }
 }
 
+export const search = async (req: Request, res: Response) => {
+    const q = (req.query.q as string || "").trim();
+    if (!q) return res.json([]);
+
+    try {
+        // Only return usernames that START with `q`
+        const result = await pool.query(
+          "SELECT username FROM users WHERE username ILIKE $1 LIMIT 10",
+          [`${q}%`] 
+        );
+    
+        const usernames = result.rows.map((row: any) => row.username);
+        res.json(usernames);
+      } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Server error" });
+      }
+} 
+
+

@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Search, Send } from "lucide-react";
+import axios from "axios";
 
 interface User {
   id: string;
@@ -73,18 +74,21 @@ const BuyerMessage = () => {
       setSearchResults([]);
       return;
     }
-
+  
     const timeout = setTimeout(async () => {
-      // Replace with real API
-      const mockResults = [
-        { id: "1", username: "alice" },
-        { id: "2", username: "bob" },
-        { id: "3", username: "charlie" },
-      ].filter((u) => u.username.includes(searchTerm.toLowerCase()));
-
-      setSearchResults(mockResults);
-    }, 300);
-
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get("/api/users/search", {
+          params: { q: searchTerm },
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setSearchResults(response.data); // array of usernames
+      } catch (err) {
+        console.error(err);
+        setSearchResults([]);
+      }
+    }, 300); // debounce 300ms
+  
     return () => clearTimeout(timeout);
   }, [searchTerm]);
 
